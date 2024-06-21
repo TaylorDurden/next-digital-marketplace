@@ -19,7 +19,6 @@ interface UserInfo {
 }
 
 export const UserNav = ({ email, name, image }: UserInfo) => {
-  console.log("email: ", email);
   const defaultImage = "https://github.com/shadcn.png";
   return (
     <DropdownMenu>
