@@ -3,16 +3,19 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
 import { SelectCategory } from "../components/SelectCategory";
 import { TipTapEditor } from "../components/Editor";
 import { useState } from "react";
 import { JSONContent } from "@tiptap/react";
+import { UploadDropzone } from "../utils/uploadthing";
 
 export default function SellRoute() {
   const [json, setJson] = useState<null | JSONContent>(null);
@@ -46,7 +49,18 @@ export default function SellRoute() {
               <Label>Description</Label>
               <TipTapEditor json={json} setJson={setJson} />
             </div>
+            <div className="flex flex-col gap-y-2">
+              <Label>Product Images</Label>
+              <UploadDropzone endpoint="imageUploader" />
+            </div>
+            <div className="flex flex-col gap-y-2">
+              <Label>Product File Zip</Label>
+              <UploadDropzone endpoint="zipUploader" />
+            </div>
           </CardContent>
+          <CardFooter className="mt-5">
+            <Button>Submit</Button>
+          </CardFooter>
         </form>
       </Card>
     </section>
