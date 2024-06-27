@@ -20,17 +20,23 @@ import { TipTapEditor } from "../components/Editor";
 import { UploadDropzone } from "../utils/uploadthing";
 import { State, SellProduct } from "../actions";
 import { SubmitButton } from "../components/SubmitButtons";
+import { ErrorLabel } from "../components/ErrorLabel";
 
 export default function SellRoute() {
-  const initialState: State = { message: "", status: undefined };
+  const initialState: State = {
+    message: "",
+    status: undefined,
+  };
   const [state, formAction] = useFormState(SellProduct, initialState);
   const [json, setJson] = useState<null | JSONContent>(null);
   const [images, setImages] = useState<null | string[]>(null);
   const [productFile, setProductFile] = useState<null | string>(null);
   console.log(state?.errors);
   const errorDisplay = (name: string) =>
-    state?.errors?.[name]?.[0] && (
-      <p className="text-destructive">{state?.errors?.[name]?.[0]}</p>
+    state?.errors?.[name as keyof typeof state.errors]?.[0] && (
+      <p className="text-destructive">
+        {state?.errors?.[name as keyof typeof state.errors]?.[0]}
+      </p>
     );
 
   useEffect(() => {
@@ -52,23 +58,28 @@ export default function SellRoute() {
           <CardContent className="flex flex-col gap-y-10">
             <div className="flex flex-col gap-y-2">
               <Label>Product Name</Label>
-              <Input type="text" name="name" placeholder="Product Name" />
-              {errorDisplay("name")}
+              <Input
+                type="text"
+                minLength={3}
+                name="name"
+                placeholder="Product Name"
+              />
+              <ErrorLabel name="name" state={state} />
             </div>
             <div className="flex flex-col gap-y-2">
               <Label>Category</Label>
               <SelectCategory />
-              {errorDisplay("category")}
+              <ErrorLabel name="category" state={state} />
             </div>
             <div className="flex flex-col gap-y-2">
               <Label>Price</Label>
               <Input type="number" name="price" placeholder="100$" />
-              {errorDisplay("price")}
+              <ErrorLabel name="price" state={state} />
             </div>
             <div className="flex flex-col gap-y-2">
               <Label>Summary</Label>
               <Textarea name="summary" placeholder="Input summary of product" />
-              {errorDisplay("summary")}
+              <ErrorLabel name="summary" state={state} />
             </div>
             <div className="flex flex-col gap-y-2">
               <Label>Description</Label>
@@ -78,7 +89,7 @@ export default function SellRoute() {
                 value={json ? JSON.stringify(json) : ""}
               />
               <TipTapEditor json={json} setJson={setJson} />
-              {errorDisplay("description")}
+              <ErrorLabel name="description" state={state} />
             </div>
             <div className="flex flex-col gap-y-2">
               <Label>Product Images</Label>
@@ -99,7 +110,7 @@ export default function SellRoute() {
                   );
                 }}
               />
-              {errorDisplay("images")}
+              <ErrorLabel name="images" state={state} />
             </div>
             <div className="flex flex-col gap-y-2">
               <Label>Product Zip File</Label>
@@ -120,7 +131,7 @@ export default function SellRoute() {
                   );
                 }}
               />
-              {errorDisplay("productFile")}
+              <ErrorLabel name="productFile" state={state} />
             </div>
           </CardContent>
           <CardFooter className="mt-5">
