@@ -17,7 +17,7 @@ export const Navbar = async () => {
       <div className="md:col-span-3">
         <Link href="/">
           <h1 className="text-2xl font-semibold">
-            Marshal <span className="text-primary">UI</span>
+            XXX <span className="text-primary">UI</span>
           </h1>
         </Link>
       </div>

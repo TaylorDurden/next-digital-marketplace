@@ -62,7 +62,11 @@ export function SettingsForm({ email, firstName, lastName }: iAppProps) {
             name="email"
             type="email"
             disabled
-            value={email}
+            value={
+              email.slice(0, Math.min(3, email.length)) +
+              "******" +
+              email.slice(-Math.min(4, email.length))
+            }
             defaultValue={"jan@alenix.de"}
           />
         </div>
