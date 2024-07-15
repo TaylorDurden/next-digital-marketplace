@@ -1,7 +1,6 @@
 // import { BuyProduct } from "@/app/actions";
 import { ProductDescription } from "@/app/components/ProductDescription";
 import { BuyButton } from "@/app/components/SubmitButtons";
-import prisma from "@/app/utils/db";
 import { unstable_noStore as noStore } from "next/cache";
 
 import {
@@ -13,35 +12,7 @@ import {
 } from "@/components/ui/carousel";
 import { JSONContent } from "@tiptap/react";
 import Image from "next/image";
-
-async function getData(id: string) {
-  const data = await prisma.product.findUnique({
-    where: {
-      id: id,
-    },
-    select: {
-      category: true,
-      description: true,
-      summary: true,
-      name: true,
-      images: true,
-      price: true,
-      createdAt: true,
-      id: true,
-      User: {
-        select: {
-          profileImage: true,
-          firstName: true,
-        },
-      },
-    },
-  });
-  return data;
-}
-
-const imageStyle = {
-  position: "relative",
-};
+import { getProductById } from "@/app/utils/product";
 
 export default async function ProductPage({
   params,
@@ -50,7 +21,7 @@ export default async function ProductPage({
 }) {
   noStore();
   console.log(`params.id: ${params.id}`);
-  const data = await getData(params.id);
+  const data = await getProductById(params.id);
   console.log(`data: ${JSON.stringify(data)}`);
   return (
     <section className="mx-auto px-4  lg:mt-10 max-w-7xl lg:px-8 lg:grid lg:grid-rows-1 lg:grid-cols-7 lg:gap-x-8 lg:gap-y-10 xl:gap-x-16">

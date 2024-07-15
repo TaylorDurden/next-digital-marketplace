@@ -59,3 +59,28 @@ export async function getProductsByUserId(userId?: string) {
 
   return data;
 }
+
+export async function getProductById(id: string) {
+  const data = await prisma.product.findUnique({
+    where: {
+      id: id,
+    },
+    select: {
+      category: true,
+      description: true,
+      summary: true,
+      name: true,
+      images: true,
+      price: true,
+      createdAt: true,
+      id: true,
+      User: {
+        select: {
+          profileImage: true,
+          firstName: true,
+        },
+      },
+    },
+  });
+  return data;
+}
