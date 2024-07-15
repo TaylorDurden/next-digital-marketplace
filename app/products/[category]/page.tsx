@@ -1,49 +1,6 @@
-import { ProductCard } from "@/app/components/ProductCard";
-import prisma from "@/app/utils/db";
-import { type CategoryType } from "@prisma/client";
-import { notFound } from "next/navigation";
 import { unstable_noStore as noStore } from "next/cache";
-
-async function getData(category: string) {
-  let input;
-
-  switch (category) {
-    case "template": {
-      input = "template";
-      break;
-    }
-    case "uikit": {
-      input = "uikit";
-      break;
-    }
-    case "icon": {
-      input = "icon";
-      break;
-    }
-    case "all": {
-      input = undefined;
-      break;
-    }
-    default: {
-      return notFound();
-    }
-  }
-
-  const data = await prisma.product.findMany({
-    where: {
-      category: input as CategoryType,
-    },
-    select: {
-      id: true,
-      images: true,
-      summary: true,
-      name: true,
-      price: true,
-    },
-  });
-
-  return data;
-}
+import ProductList from "@/app/components/ProductList";
+import { getProductsByCategory } from "@/app/utils/product";
 
 export default async function CategoryPage({
   params,
@@ -51,21 +8,6 @@ export default async function CategoryPage({
   params: { category: string };
 }) {
   noStore();
-  const data = await getData(params.category);
-  return (
-    <section className="max-w-7xl mx-auto px-4 md:px-8">
-      <div className="grid grid-cols-1 lg:grid-cols-3 sm:grid-cols-2 gap-10 mt-4">
-        {data.map((product) => (
-          <ProductCard
-            key={product.id}
-            images={product.images}
-            price={product.price}
-            name={product.name}
-            id={product.id}
-            summary={product.summary}
-          />
-        ))}
-      </div>
-    </section>
-  );
+  const data = await getProductsByCategory(params.category);
+  return <ProductList products={data} />;
 }

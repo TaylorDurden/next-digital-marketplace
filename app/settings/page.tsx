@@ -1,23 +1,8 @@
 import { Card } from "@/components/ui/card";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
-import prisma from "../utils/db";
 import { SettingsForm } from "../components/form/SettingsForm";
 import { unstable_noStore as noStore } from "next/cache";
-
-async function getData(userId: string) {
-  const data = await prisma.user.findUnique({
-    where: {
-      id: userId,
-    },
-    select: {
-      firstName: true,
-      lastName: true,
-      email: true,
-    },
-  });
-
-  return data;
-}
+import { getUserById } from "../utils/user";
 
 export default async function SetttingsPage() {
   noStore();
@@ -27,7 +12,7 @@ export default async function SetttingsPage() {
     throw new Error("Not Authorized");
   }
 
-  const data = await getData(user.id);
+  const data = await getUserById(user.id);
   return (
     <section className="max-w-7xl mx-auto px-4 md:px-8">
       <Card>
