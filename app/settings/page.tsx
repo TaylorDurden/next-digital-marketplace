@@ -14,7 +14,7 @@ export default async function SetttingsPage() {
 
   const data = await getUserById(user.id);
   return (
-    <section className="max-w-7xl mx-auto px-4 md:px-8">
+    <section className="max-w-screen-2xl mx-auto px-4 md:px-8">
       <Card>
         <SettingsForm
           firstName={data?.firstName as string}

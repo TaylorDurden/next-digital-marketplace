@@ -24,7 +24,7 @@ export default async function ProductPage({
   const data = await getProductById(params.id);
   console.log(`data: ${JSON.stringify(data)}`);
   return (
-    <section className="mx-auto px-4  lg:mt-10 max-w-7xl lg:px-8 lg:grid lg:grid-rows-1 lg:grid-cols-7 lg:gap-x-8 lg:gap-y-10 xl:gap-x-16">
+    <section className="mx-auto px-4  lg:mt-10 max-w-screen-2xl lg:px-8 lg:grid lg:grid-rows-1 lg:grid-cols-7 lg:gap-x-8 lg:gap-y-10 xl:gap-x-16">
       <Carousel className=" lg:row-end-1 lg:col-span-4">
         <CarouselContent>
           {data?.images.map((item, index) => (
