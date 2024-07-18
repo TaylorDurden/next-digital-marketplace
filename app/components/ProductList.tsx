@@ -8,7 +8,7 @@ interface ProductListType {
 
 export default async function ProductList({ products }: ProductListType) {
   return (
-    <section className="max-w-7xl mx-auto px-4 md:px-8">
+    <section className="max-w-screen-2xl mx-auto px-4 md:px-8">
       <div className="grid grid-cols-1 lg:grid-cols-3 sm:grid-cols-2 gap-10 mt-4">
         {products.map((product) => (
           <ProductCard
